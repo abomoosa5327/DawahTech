@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد الأرقام الذكي العالمي وجهات اتصال واتساب</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        /* تحسين مظهر شريط التمرير لقائمة الدول */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-indigo-600 mb-2">🚀 المولد الذكي العالمي للأرقام وجهات الاتصال</h1>
+            <p class="text-sm text-slate-500 max-w-2xl mx-auto">أداة احترافية متكاملة لتوليد أرقام حقيقية لجميع دول العالم، وإطلاق حملات واتساب الذكية بدون أي تكرار مع ميزة التصدير لملفات الهواتف الذكية.</p>
+        </header>
+
+        <div class="bg-white shadow-xl rounded-2xl p-6 mb-8 border border-slate-100">
+            
+            <div class="flex bg-slate-100 p-1 rounded-xl mb-6">
+                <button id="tabCountry" onclick="switchMode('country')" class="w-1/2 py-2.5 text-center font-semibold rounded-lg text-sm transition-all bg-white text-indigo-600 shadow-sm cursor-pointer">
+                    🌐 توليد حسب الدولة العالمية
+                </button>
+                <button id="tabCustom" onclick="switchMode('custom')" class="w-1/2 py-2.5 text-center font-semibold rounded-lg text-sm text-slate-600 transition-all cursor-pointer">
+                    ✏️ توليد من رقم معين (تعديل أواخر الأرقام)
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div id="countrySection" class="relative">
+                        <label class="block text-sm font-semibold mb-2 text-slate-700">ابحث واختر الدولة (شاملة الأعلام والمفاتيح):</label>
+                        <div class="relative">
+                            <input type="text" id="countrySearch" oninput="filterCountries()" placeholder="🔍 اكتب اسم الدولة، رمزها أو علمها... مثال: مصر" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm transition-all shadow-inner">
+                            <div id="countryDropdown" class="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-2xl max-h-60 overflow-y-auto hidden divide-y divide-slate-50">
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedCountryIndex" value="">
+                    </div>
+
+                    <div id="customSection" class="hidden">
+                        <label class="block text-sm font-semibold mb-2 text-slate-700">اكتب الرقم الأساسي (مع رمز الدولة بدون +):</label>
+                        <input type="text" id="baseNumber" placeholder="مثال: 201145189549" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm text-left" dir="ltr">
+                        <span class="text-xs text-slate-400 mt-1 block">سيقوم النظام بتثبيت مقدمة الرقم وتعديل الخانات الأخيرة توليداً عشوائياً بدقة.</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-slate-700">كم رقم / جهة اتصال تحتاج توليدها؟</label>
+                        <input type="number" id="countInput" min="1" max="5000" value="20" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    </div>
+                </div>
+
+                <div class="space-y-4 flex flex-col justify-between">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-slate-700">تسمية ملف جهات الاتصال لتصديره للهاتف (VCF):</label>
+                        <input type="text" id="vcfName" placeholder="مثال: hossam 10" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm text-left" dir="ltr">
+                        <span class="text-xs text-slate-400 mt-1 block">إذا كتبت "hossam 10"، سيبدأ الترقيم التلقائي الذكي للملف من "hossam 11" فصاعداً.</span>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                        <div class="flex justify-between items-center text-xs text-indigo-800">
+                            <span>📊 سجل حظر التكرار المحلي:</span>
+                            <button onclick="clearHistory()" class="text-red-500 hover:underline cursor-pointer font-semibold">تصفير السجل</button>
+                        </div>
+                        <p class="text-xl font-bold text-indigo-900 mt-1"><span id="historyCount">0</span> رقم معزول ومحفوظ سابقاً</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="generateNumbers()" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all active:scale-[0.99] cursor-pointer text-center text-base">
+                ✨ ابدأ توليد الأرقام الذكية الآن
+            </button>
+        </div>
+
+        <div id="resultsCard" class="bg-white shadow-xl rounded-2xl p-6 border border-slate-100 hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
+                <h2 class="text-lg font-bold text-slate-800">📋 الأرقام المستخرجة الناتجة (<span id="resultCount">0</span> رقم)</h2>
+                <div id="toast" class="text-xs text-emerald-600 font-semibold hidden bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">تم النسخ بنجاح للذاكرة!</div>
+            </div>
+
+            <div class="overflow-x-auto max-h-96 border border-slate-100 rounded-xl mb-6 shadow-sm">
+                <table class="w-full text-sm text-right text-slate-600">
+                    <thead class="text-xs text-slate-700 uppercase bg-slate-100 sticky top-0">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-center w-16">م</th>
+                            <th scope="col" class="px-6 py-3">الرقم الناتِج الفريد</th>
+                            <th scope="col" class="px-6 py-3 text-center">الإجراءات الفردية</th>
+                        </tr>
+                    </thead>
+                    <tbody id="numbersTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="copyAllWhatsAppLinks()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 cursor-pointer text-sm">
+                    🔗 نسخ الكل كروابط واتساب منسقة ومسلسلة
+                </button>
+                <button onclick="exportToVCF()" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 cursor-pointer text-sm">
+                    📥 تصدير جهات الاتصال كملف جاهز للهاتف (VCF)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-4 text-xs text-slate-400 border-t border-slate-200 bg-white">
+        جميع العمليات تتم محلياً 100% داخل متصفحك الآمن لحفظ الخصوصية المطلقة وبياناتك غير قابلة للمشاركة.
+    </footer>
+
+    <script>
+        // قاعدة البيانات الشاملة والدقيقة لأطوال وبادئات الهواتف النقالة عالمياً لضمان عدم توليد أي رقم ناقص أو زائد
+        const countries = [
+            { name: "مصر", code: "20", flag: "🇪🇬", prefixes: ["10", "11", "12", "15"], len: 8 },
+            { name: "المملكة العربية السعودية", code: "966", flag: "🇸🇦", prefixes: ["50", "53", "54", "55", "56", "57", "58", "59"], len: 7 },
+            { name: "الإمارات العربية المتحدة", code: "971", flag: "🇦🇪", prefixes: ["50", "52", "54", "55", "56", "58"], len: 7 },
+            { name: "الكويت", code: "965", flag: "🇰🇼", prefixes: ["5", "6", "9"], len: 7 },
+            { name: "قطر", code: "974", flag: "🇶🇦", prefixes: ["3", "5", "6", "7"], len: 7 },
+            { name: "سلطنة عمان", code: "968", flag: "🇴🇲", prefixes: ["9", "7"], len: 7 },
+            { name: "البحرين", code: "973", flag: "🇧🇭", prefixes: ["3", "6"], len: 7 },
+            { name: "الأردن", code: "962", flag: "🇯🇴", prefixes: ["77", "78", "79"], len: 7 },
+            { name: "العراق", code: "964", flag: "🇮🇶", prefixes: ["77", "78", "75", "79"], len: 8 },
+            { name: "المغرب", code: "212", flag: "🇲🇦", prefixes: ["6", "7"], len: 8 },
+            { name: "الجزائر", code: "213", flag: "🇩🇿", prefixes: ["5", "6", "7"], len: 8 },
+            { name: "تونس", code: "216", flag: "🇹🇳", prefixes: ["2", "4", "5", "9"], len: 7 },
+            { name: "فلسطين", code: "970", flag: "🇵🇸", prefixes: ["59", "56"], len: 7 },
+            { name: "لبنان", code: "961", flag: "🇱🇧", prefixes: ["3", "70", "71", "76", "78", "81"], len: 6 },
+            { name: "اليمن", code: "967", flag: "🇾🇪", prefixes: ["71", "73", "77", "70"], len: 7 },
+            { name: "السودان", code: "249", flag: "🇸🇩", prefixes: ["9", "1"], len: 8 },
+            { name: "ليبيا", code: "218", flag: "🇱🇾", prefixes: ["91", "92", "94", "95"], len: 7 },
+            { name: "سوريا", code: "963", flag: "🇸🇾", prefixes: ["93", "94", "95", "96", "98", "99"], len: 7 },
+            { name: "موريتانيا", code: "222", flag: "🇲🇷", prefixes: ["2", "3", "4"], len: 7 },
+            { name: "الصومال", code: "252", flag: "🇸🇴", prefixes: ["61", "62", "63", "69"], len: 7 },
+            { name: "جيبوتي", code: "253", flag: "🇩🇯", prefixes: ["77"], len: 6 },
+            { name: "جزر القمر", code: "269", flag: "🇰🇲", prefixes: ["3"], len: 6 },
+            { name: "أفغانستان", code: "93", flag: "🇦🇫", prefixes: ["70", "79"], len: 7 },
+            { name: "ألبانيا", code: "355", flag: "🇦🇱", prefixes: ["67", "68", "69"], len: 7 },
+            { name: "ألمانيا", code: "49", flag: "🇩🇪", prefixes: ["15", "16", "17"], len: 8 },
+            { name: "أندورا", code: "376", flag: "🇦🇩", prefixes: ["3", "6"], len: 4 },
+            { name: "أنغولا", code: "244", flag: "🇦🇴", prefixes: ["91", "92", "93"], len: 7 },
+            { name: "الأرجنتين", code: "54", flag: "🇦🇷", prefixes: ["911", "926"], len: 8 },
+            { name: "أستراليا", code: "61", flag: "🇦🇺", prefixes: ["4"], len: 8 },
+            { name: "النمسا", code: "43", flag: "🇦🇹", prefixes: ["664", "676"], len: 7 },
+            { name: "أذربيجان", code: "994", flag: "🇦🇿", prefixes: ["50", "51", "55", "70"], len: 7 },
+            { name: "بنغلاديش", code: "880", flag: "🇧🇩", prefixes: ["17", "18", "19"], len: 8 },
+            { name: "بيلاروسيا", code: "375", flag: "🇧🇾", prefixes: ["29", "33", "44"], len: 7 },
+            { name: "بلجيكا", code: "32", flag: "🇧🇪", prefixes: ["47", "48", "49"], len: 7 },
+            { name: "البرازيل", code: "55", flag: "🇧🇷", prefixes: ["119", "219", "319"], len: 8 },
+            { name: "بلغاريا", code: "359", flag: "🇧🇬", prefixes: ["87", "88", "89"], len: 7 },
+            { name: "كندا", code: "1", flag: "🇨🇦", prefixes: ["416", "604", "514"], len: 7 },
+            { name: "تشيلي", code: "56", flag: "🇨🇱", prefixes: ["9"], len: 8 },
+            { name: "الصين", code: "86", flag: "🇨🇳", prefixes: ["13", "15", "18"], len: 9 },
+            { name: "كولومبيا", code: "57", flag: "🇨🇴", prefixes: ["300", "310", "320"], len: 7 },
+            { name: "كرواتيا", code: "385", flag: "🇭🇷", prefixes: ["91", "92", "95"], len: 7 },
+            { name: "قبرص", code: "357", flag: "🇨🇾", prefixes: ["99", "96"], len: 6 },
+            { name: "التشيك", code: "420", flag: "🇨🇿", prefixes: ["60", "72", "73"], len: 7 },
+            { name: "الدنمارك", code: "45", flag: "🇩🇰", prefixes: ["2", "3", "4"], len: 7 },
+            { name: "إثيوبيا", code: "251", flag: "🇪🇹", prefixes: ["91", "92", "93"], len: 7 },
+            { name: "فنلندا", code: "358", flag: "🇫🇮", prefixes: ["4", "5"], len: 7 },
+            { name: "فرنسا", code: "33", flag: "🇫🇷", prefixes: ["6", "7"], len: 8 },
+            { name: "جورجيا", code: "995", flag: "🇬🇪", prefixes: ["5"], len: 8 },
+            { name: "غانا", code: "233", flag: "🇬🇭", prefixes: ["20", "24", "54"], len: 7 },
+            { name: "اليونان", code: "30", flag: "🇬🇷", prefixes: ["69"], len: 8 },
+            { name: "الهند", code: "91", flag: "🇮🇳", prefixes: ["7", "8", "9"], len: 9 },
+            { name: "إندونيسيا", code: "62", flag: "🇮🇩", prefixes: ["81", "82", "85"], len: 9 },
+            { name: "إيران", code: "98", flag: "🇮🇷", prefixes: ["91", "92", "93"], len: 9 },
+            { name: "أيرلندا", code: "353", flag: "🇮🇪", prefixes: ["83", "85", "86"], len: 7 },
+            { name: "إيطاليا", code: "39", flag: "🇮🇹", prefixes: ["32", "33", "34"], len: 8 },
+            { name: "اليابان", code: "81", flag: "🇯🇵", prefixes: ["70", "80", "90"], len: 8 },
+            { name: "ماليزيا", code: "60", flag: "🇲🇾", prefixes: ["11", "12", "13", "14"], len: 8 },
+            { name: "المكسيك", code: "52", flag: "🇲🇽", prefixes: ["1"], len: 10 },
+            { name: "هولندا", code: "31", flag: "🇳🇱", prefixes: ["6"], len: 8 },
+            { name: "نيوزيلندا", code: "64", flag: "🇳🇿", prefixes: ["2"], len: 8 },
+            { name: "نيجيريا", code: "234", flag: "🇳🇬", prefixes: ["80", "81", "70"], len: 8 },
+            { name: "النرويج", code: "47", flag: "🇳🇴", prefixes: ["4", "9"], len: 7 },
+            { name: "باكستان", code: "92", flag: "🇵🇰", prefixes: ["30", "31", "32"], len: 8 },
+            { name: "الفلبين", code: "63", flag: "🇵🇭", prefixes: ["91", "92", "93"], len: 9 },
+            { name: "بولندا", code: "48", flag: "🇵🇱", prefixes: ["5", "6", "7"], len: 8 },
+            { name: "البرتغال", code: "351", flag: "🇵🇹", prefixes: ["91", "92", "93"], len: 7 },
+            { name: "رومانيا", code: "40", flag: "🇷🇴", prefixes: ["72", "73", "74"], len: 8 },
+            { name: "روسيا الاتحادية", code: "7", flag: "🇷🇺", prefixes: ["90", "91", "92"], len: 9 },
+            { name: "سنغافورة", code: "65", flag: "🇸🇬", prefixes: ["8", "9"], len: 7 },
+            { name: "جنوب أفريقيا", code: "27", flag: "🇿🇦", prefixes: ["6", "7", "8"], len: 8 },
+            { name: "إسبانيا", code: "34", flag: "🇪🇸", prefixes: ["6", "7"], len: 8 },
+            { name: "السويد", code: "46", flag: "🇸🇪", prefixes: ["7"], len: 8 },
+            { name: "سويسرا", code: "41", flag: "🇨🇭", prefixes: ["76", "77", "78"], len: 7 },
+            { name: "تايلاند", code: "66", flag: "🇹🇭", prefixes: ["6", "8", "9"], len: 8 },
+            { name: "تركيا", code: "90", flag: "🇹🇷", prefixes: ["53", "54", "55"], len: 8 },
+            { name: "أوكرانيا", code: "380", flag: "🇺🇦", prefixes: ["50", "63", "66", "67"], len: 7 },
+            { name: "المملكة المتحدة", code: "44", flag: "🇬🇧", prefixes: ["7"], len: 9 },
+            { name: "الولايات المتحدة الأمريكية", code: "1", flag: "🇺🇸", prefixes: ["201", "305", "646", "213", "312"], len: 7 }
+        ];
+
+        let activeMode = 'country';
+        generatedNumbers = [];
+
+        window.onload = function() {
+            initCountryDropdown();
+            updateHistoryCountDisplay();
+        };
+
+        function getHistory() {
+            return new Set(JSON.parse(localStorage.getItem('generated_history')) || []);
+        }
+
+        function saveToHistory(numbersArray) {
+            const history = getHistory();
+            numbersArray.forEach(num => history.add(num));
+            localStorage.setItem('generated_history', JSON.stringify(Array.from(history)));
+            updateHistoryCountDisplay();
+        }
+
+        function clearHistory() {
+            if(confirm("هل أنت متأكد من رغبتك في مسح سجل الأرقام المحفوظة تماماً لحظر التكرار مجدداً؟")) {
+                localStorage.removeItem('generated_history');
+                updateHistoryCountDisplay();
+                alert("تم تصفير السجل وتصفية الذاكرة بنجاح.");
+            }
+        }
+
+        function updateHistoryCountDisplay() {
+            document.getElementById('historyCount').innerText = getHistory().size;
+        }
+
+        function switchMode(mode) {
+            activeMode = mode;
+            const tabCountry = document.getElementById('tabCountry');
+            const tabCustom = document.getElementById('tabCustom');
+            const countrySec = document.getElementById('countrySection');
+            const customSec = document.getElementById('customSection');
+
+            if(mode === 'country') {
+                tabCountry.className = "w-1/2 py-2.5 text-center font-semibold rounded-lg text-sm transition-all bg-white text-indigo-600 shadow-sm cursor-pointer";
+                tabCustom.className = "w-1/2 py-2.5 text-center font-semibold rounded-lg text-sm text-slate-600 transition-all cursor-pointer";
+                countrySec.classList.remove('hidden');
+                customSec.classList.add('hidden');
+            } else {
+                tabCustom.className = "w-1/2 py-2.5 text-center font-semibold rounded-lg text-sm transition-all bg-white text-indigo-600 shadow-sm cursor-pointer";
+                tabCountry.className = "w-1/2 py-2.5 text-center font-semibold rounded-lg text-sm text-slate-600 transition-all cursor-pointer";
+                customSec.classList.remove('hidden');
+                countrySec.classList.add('hidden');
+            }
+        }
+
+        function initCountryDropdown() {
+            const dropdown = document.getElementById('countryDropdown');
+            dropdown.innerHTML = '';
+            countries.forEach((c, index) => {
+                const div = document.createElement('div');
+                div.className = "px-4 py-3 hover:bg-slate-50 cursor-pointer text-sm flex justify-between items-center transition-colors";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">${c.flag}</span>
+                        <span class="font-medium text-slate-700">${c.name}</span>
+                    </div> 
+                    <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono text-xs" dir="ltr">+${c.code}</span>
+                `;
+                div.onclick = () => selectCountry(index, c.name, c.code, c.flag);
+                dropdown.appendChild(div);
+            });
+
+            document.getElementById('countrySearch').addEventListener('focus', () => {
+                dropdown.classList.remove('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#countrySection')) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        function filterCountries() {
+            const term = document.getElementById('countrySearch').value.toLowerCase();
+            const dropdown = document.getElementById('countryDropdown');
+            const items = dropdown.children;
+            dropdown.classList.remove('hidden');
+            
+            countries.forEach((c, index) => {
+                if (c.name.toLowerCase().includes(term) || c.code.includes(term)) {
+                    items[index].classList.remove('hidden');
+                } else {
+                    items[index].classList.add('hidden');
+                }
+            });
+        }
+
+        function selectCountry(index, name, code, flag) {
+            document.getElementById('countrySearch').value = `${flag} ${name} (+${code})`;
+            document.getElementById('selectedCountryIndex').value = index;
+            document.getElementById('countryDropdown').classList.add('hidden');
+        }
+
+        function generateNumbers() {
+            const count = parseInt(document.getElementById('countInput').value) || 20;
+            const history = getHistory();
+            generatedNumbers = [];
+            let attempts = 0;
+            const maxAttempts = count * 15; 
+
+            if (activeMode === 'country') {
+                const countryIndexStr = document.getElementById('selectedCountryIndex').value;
+                if (countryIndexStr === "") {
+                    alert("الرجاء اختيار دولة من القائمة أولاً.");
+                    return;
+                }
+                const country = countries[parseInt(countryIndexStr)];
+                
+                while (generatedNumbers.length < count && attempts < maxAttempts) {
+                    attempts++;
+                    const prefix = country.prefixes[Math.floor(Math.random() * country.prefixes.length)];
+                    
+                    // توليد الرقم العشوائي المتبقي بالاعتماد الصارم على طول الحقل المحدد بالبنية التحتية للدولة
+                    let randomPart = '';
+                    for (let i = 0; i < country.len; i++) {
+                        randomPart += Math.floor(Math.random() * 10);
+                    }
+                    
+                    const fullNumber = country.code + prefix + randomPart;
+                    
+                    if (!history.has(fullNumber) && !generatedNumbers.includes(fullNumber)) {
+                        generatedNumbers.push(fullNumber);
+                    }
+                }
+            } else {
+                const base = document.getElementById('baseNumber').value.trim().replace(/\+/g, '');
+                if (base.length < 7) {
+                    alert("الرجاء إدخال رقم أساسي صحيح مكون من مفتاح الدولة وبادئة الاتصال كاملة.");
+                    return;
+                }
+                
+                // تثبيت أول 75% من مكونات الرقم المدخل وتعديل الخانات الأخيرة لضمان ثبات الطول الإجمالي
+                const modificationLen = Math.min(4, Math.floor(base.length / 2));
+                const fixedPart = base.substring(0, base.length - modificationLen);
+                
+                while (generatedNumbers.length < count && attempts < maxAttempts) {
+                    attempts++;
+                    let randomPart = '';
+                    for (let i = 0; i < modificationLen; i++) {
+                        randomPart += Math.floor(Math.random() * 10);
+                    }
+                    const fullNumber = fixedPart + randomPart;
+                    
+                    if (!history.has(fullNumber) && !generatedNumbers.includes(fullNumber)) {
+                        generatedNumbers.push(fullNumber);
+                    }
+                }
+            }
+
+            if (generatedNumbers.length === 0) {
+                alert("تعذر توليد أرقام جديدة، ربما بسبب استنفاد كافة الاحتمالات داخل السجل الحالي. يرجى تصفير السجل.");
+                return;
+            }
+
+            saveToHistory(generatedNumbers);
+            renderResults();
+        }
+
+        function renderResults() {
+            const tbody = document.getElementById('numbersTableBody');
+            tbody.innerHTML = '';
+            
+            generatedNumbers.forEach((num, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-6 py-3.5 text-center font-mono font-bold text-slate-400">${index + 1}</td>
+                    <td class="px-6 py-3.5 font-mono font-bold text-slate-900 tracking-wide text-left select-all" dir="ltr">+${num}</td>
+                    <td class="px-6 py-3.5 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <button onclick="copyToClipboard('${num}')" class="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold py-1 px-3 rounded-lg text-xs transition-all cursor-pointer">نسخ الرقم</button>
+                            <a href="https://wa.me/${num}" target="_blank" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold py-1 px-3 rounded-lg text-xs transition-all flex items-center gap-1">دردشة</a>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('resultCount').innerText = generatedNumbers.length;
+            document.getElementById('resultsCard').classList.remove('hidden');
+            document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2000);
+        }
+
+        function copyAllWhatsAppLinks() {
+            if (generatedNumbers.length === 0) return;
+            const links = generatedNumbers.map((num, i) => `${i + 1}- https://wa.me/${num}`).join('\n');
+            navigator.clipboard.writeText(links).then(() => {
+                alert("تم نسخ جميع الروابط المسلسلة بنجاح إلى الحافظة.");
+            });
+        }
+
+        function exportToVCF() {
+            if (generatedNumbers.length === 0) return;
+            
+            let customInputName = document.getElementById('vcfName').value.trim() || 'hossam 10';
+            
+            // محرك ذكي لتفكيك الاسم المكتوب وزيادة الأرقام اللاحقة بالتتابع الهندسي تلقائياً
+            let match = customInputName.match(/^(.*?)\s*(\d+)$/);
+            let baseName = customInputName;
+            let currentSerialNumber = 11; // القيمة الافتراضية للبداية في حال عدم التخصيص رقمياً
+
+            if (match) {
+                baseName = match[1].trim();
+                currentSerialNumber = parseInt(match[2], 10) + 1;
+            }
+
+            let vcfContent = '';
+            generatedNumbers.forEach((num) => {
+                vcfContent += `BEGIN:VCARD\nVERSION:3.0\nFN:${baseName} ${currentSerialNumber}\nTEL;TYPE=CELL:${num}\nEND:VCARD\n`;
+                currentSerialNumber++;
+            });
+
+            const blob = new Blob([vcfContent], { type: 'text/vcard;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${baseName}_contacts.vcf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
